@@ -34,7 +34,7 @@ az deployment group create -g poc-costanomalydetection -f .\Templates\main.bicep
 ```
 
 ###  <a name="PostDeployment"></a>Post Deployment Steps    
-After deploying this solution you have to give the App Service system assigned managed identity "Cost Management Reader" or "Reader" role at the scope or scopes you are quering. _The system assigned managed identity will have the same name as your function app._
+After deploying this solution you have to give the App Service system assigned managed identity "Billing account reader" or "Cost Management Reader" role at the scope or scopes you are quering. _The system assigned managed identity will have the same name as your function app._
 
 If you want to load historical data into Log Analytics you can utilize the function named **PreLoadLogAnalytics**.  
 
@@ -48,7 +48,8 @@ Use the below link to deploy this solution to Azure. ***Note*** Make sure you fo
 
 **Note** There are many parameters that you can supply, only one is required, `scopes`:  
 1) deploymentPrefix: this will prefix the name of all the resources created.  
-2) scopes: this defines the scope or scopes for the Cost Management API. 
+2) scopes: this defines the scope or scopes for the Cost Management API.
+    - ex: providers/Microsoft.Billing/billingAccounts/cf9d8426-6a39-43c3-9709-128a891ad2d5:5a0b4b8f-5fa6-49fc-8f4e-7743746d8f04_2019-05-31
     - ex: subscriptions/5f1c1322-cebc-4ea3-8779-fac7d666e18f
     - ex: subscriptions/5f1c1322-cebc-4ea3-8779-fac7d666e18f, subscriptions/718c1322-cebc-4ea3-8779-fac7d666e18f  
   
