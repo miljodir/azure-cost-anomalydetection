@@ -44,6 +44,11 @@ namespace AzureCost_to_LogAnalytics
 
         string newURL = "/" + scope + "/providers/Microsoft.CostManagement/query?api-version=2019-11-01&" + skipToken;
         response = await client.PostAsync(newURL, new StringContent(myJson, Encoding.UTF8, "application/json"));
+        if (!response.IsSuccessStatusCode)
+        {
+          log.LogError($"Error querying {scope}. {response.ReasonPhrase}");
+          return;
+        }
         QueryResults result = JsonConvert.DeserializeObject<QueryResults>(response.Content.ReadAsStringAsync().Result);
 
 
@@ -153,7 +158,11 @@ namespace AzureCost_to_LogAnalytics
           Console.WriteLine(scope);
           // HTTP Post
           response = await client.PostAsync("/" + scope + "/providers/Microsoft.CostManagement/query?api-version=2019-11-01", new StringContent(myJson, Encoding.UTF8, "application/json"));
-
+          if (!response.IsSuccessStatusCode)
+          {
+            log.LogError($"Error querying {scope}. {response.ReasonPhrase}");
+            continue;
+          }
           QueryResults result = Newtonsoft.Json.JsonConvert.DeserializeObject<QueryResults>(response.Content.ReadAsStringAsync().Result);
 
 
